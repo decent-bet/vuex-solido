@@ -69,9 +69,10 @@ const setupWallet = solidoAction<Promise<void>>(async <MySubState, MyRootState>(
           name: 'MyTokenContract',
           import: MyContractImport,
           entity: MyContract,
+          provider: ConnexPlugin
     }];
 
-    setup(config, contractMappings, ConnexPlugin);
+    setup(config, contractMappings);
 
     commit('YOUR_WALLET_SETUP_MUTATION', { success: true });
   } catch(error) {
