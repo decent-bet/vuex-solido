@@ -1,6 +1,6 @@
 {
   "name": "@decent-bet/vuex-solido",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "Vuex enhanced action for @decent-bet/solido",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
