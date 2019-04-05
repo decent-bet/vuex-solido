@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "npm run lint; rm -rf lib/; tsc -p .",
+    "build": "npm run lint && rm -rf dist && tsc -p .",
     "test": "jest --watch",
     "lint": "eslint --fix ."
   },
