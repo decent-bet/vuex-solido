@@ -1,13 +1,14 @@
 {
   "name": "@decent-bet/vuex-solido",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Vuex enhanced action for @decent-bet/solido",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "npm run lint; rm -rf dist/; tsc -p .",
-    "lint": "tslint  --fix -p .",
-    "test": "jest --watch"
+    "prepublishOnly": "npm run build",
+    "build": "npm run lint; rm -rf lib/; tsc -p .",
+    "test": "jest --watch",
+    "lint": "eslint --fix ."
   },
   "keywords": [
     "blockchain",
