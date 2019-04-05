@@ -14,7 +14,6 @@ import { SolidoContract } from "@decent-bet/solido";
 let MODULE: SolidoModule;
 let BINDINGS: ContractCollection;
 let MAPPINGS: ContractProviderMapping[];
-let PROVIDERS: any[];
 const CONTRACT_INSTANCES: any = {};
 const commitSettings = { root: true };
 
@@ -23,8 +22,7 @@ export const CONFIG: SolidoProviderConfig = {};
 export function setup<S, R>(context: ActionContext<S, R>) {
   return (
     config: SolidoProviderConfig,
-    contractMappings: ContractProviderMapping[],
-    ...providers: any[]
+    contractMappings: ContractProviderMapping[]
   ): void => {
     const { commit } = context;
     const { connex, thorify, web3 } = config;
@@ -32,7 +30,6 @@ export function setup<S, R>(context: ActionContext<S, R>) {
     CONFIG.thorify = thorify;
     CONFIG.web3 = web3;
     MAPPINGS = contractMappings;
-    PROVIDERS = providers;
     commit("SOLIDO_WALLET_SETUP", { success: true }, commitSettings);
   };
 }
@@ -50,7 +47,7 @@ function setupContract<T, S, R>(
 ): void {
   try {
     if (!MODULE) {
-      MODULE = new SolidoModule(MAPPINGS, PROVIDERS);
+      MODULE = new SolidoModule(MAPPINGS);
     }
 
     if (!BINDINGS) {
@@ -58,8 +55,9 @@ function setupContract<T, S, R>(
     }
 
     const contract = BINDINGS.getContract<T>(name);
-
-    switch (contract.providerType) {
+    const provider = contract.getProviderType();
+    
+    switch (provider) {
       case SolidoProviderType.Connex:
         const { connex } = CONFIG;
         if (!connex) {
@@ -78,7 +76,7 @@ function setupContract<T, S, R>(
 
       default:
         throw new Error(
-          `The Solido provider is not valid: ${contract.providerType}.`
+          `The Solido provider is not valid: ${provider}.`
         );
     }
 

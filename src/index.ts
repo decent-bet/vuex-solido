@@ -4,14 +4,13 @@ import { SolidoProviderConfig } from "./types";
 
 declare module "vuex/types" {
   export interface ActionContext<S, R> {
-    getContract: <T extends SolidoContract & SolidoProvider>(
+    getContract: <T>(
       name: string
-    ) => T;
+    ) => T & SolidoContract & SolidoProvider;
 
     setup: (
       config: SolidoProviderConfig,
-      contractMappings: ContractProviderMapping[],
-      ...providers: any[]
+      contractMappings: ContractProviderMapping[]
     ) => void;
 
     currentConfig: SolidoProviderConfig;
