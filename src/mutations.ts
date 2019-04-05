@@ -1,6 +1,7 @@
 import { SolidoLoadedPayload, SolidoSetupPayload } from "./types";
 
-export const connexEntitiesMutations = {
+
+export const solidoMutations = {
   SOLIDO_ENTITY_LOADED: (
     state: any,
     { success, name, error }: SolidoLoadedPayload
@@ -13,7 +14,7 @@ export const connexEntitiesMutations = {
       state.solido.loaded = {};
     }
 
-    state.solico.loaded[name] = { success, error };
+    state.solido.loaded[name] = { success, error };
   },
   SOLIDO_WALLET_SETUP: (state: any, { success, error }: SolidoSetupPayload) => {
     if (!state.solido) {
