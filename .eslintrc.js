@@ -5,36 +5,26 @@ module.exports = {
     browser: true,
     node: true
   },
-
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: "./tsconfig.json"
+  },
   rules: {
-    "no-console": "off",
-    "no-debugger": "off",
     "no-underscore-dangle": "off",
     "comma-dangle": "off",
-    "no-param-reassign": [
-      "error",
-      {
-        props: true,
-        ignorePropertyModificationsFor: [
-          "state",
-          "acc",
-          "e",
-          "ctx",
-          "req",
-          "request",
-          "res",
-          "response"
-        ]
-      }
-    ]
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/no-parameter-properties": "off",
+    "@typescript-eslint/explicit-function-return-type": "off"
   },
-  parserOptions: {
-    parser: "@typescript-eslint/parser"
-  },
-  extends: ["@vue/typescript"],
+  plugins: ["@typescript-eslint"],
+  extends: ["plugin:@typescript-eslint/recommended"],
   overrides: [
     {
-      files: ["src/*.ts"]
+      files: ["src/*.ts", "tests/*.ts"]
     }
   ]
 };
+
