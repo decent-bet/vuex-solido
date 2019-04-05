@@ -39,12 +39,12 @@ export function setup<S, R>(context: ActionContext<S, R>) {
 
 /**
  *
- * @param {SolidoContract & SolidoProvider} T The type of the contract
+ * @param {} T The type of the contract
  * @param {S} S The type of the store
  * @param {R} R The type of the root state
  * @param {string} name The name of the contract
  */
-function setupContract<T extends SolidoContract & SolidoProvider, S, R>(
+function setupContract<T, S, R>(
   { commit }: ActionContext<S, R>,
   name: string
 ): void {
@@ -106,11 +106,11 @@ export function getContract<S, R>(context: ActionContext<S, R>) {
    * @param {T extends SolidoContract & SolidoProvider} T the type of the contract
    * @param {ActionContext<S, R>} name The name of the contract
    */
-  return <T extends SolidoContract & SolidoProvider>(name: string): T => {
+  return <T>(name: string): T & SolidoContract & SolidoProvider => {
     if (!CONTRACT_INSTANCES[name]) {
       setupContract<T, S, R>(context, name);
     }
 
-    return CONTRACT_INSTANCES[name] as T;
+    return CONTRACT_INSTANCES[name] as T & SolidoContract & SolidoProvider;
   };
 }
