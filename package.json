@@ -1,0 +1,50 @@
+{
+  "name": "@decent-bet/vuex-solido",
+  "version": "0.0.1",
+  "description": "Vuex enhanced action for @decent-bet/solido",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "npm run lint; rm -rf dist/; tsc -p .",
+    "lint": "tslint  --fix -p .",
+    "test": "jest --watch"
+  },
+  "keywords": [
+    "blockchain",
+    "thor",
+    "vechain",
+    "ethereum",
+    "thorify",
+    "connex",
+    "web3",
+    "vue",
+    "vuex"
+  ],
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decent-bet/vuex-solido.git"
+  },
+  "author": "Decent.bet",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/decent-bet/vuex-solido/issues"
+  },
+  "homepage": "https://github.com/decent-bet/vuex-solido#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "@types/node": "^11.13.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
+    "eslint": "^5.16.0",
+    "jest": "^24.7.1",
+    "ts-jest": "^24.0.1",
+    "typescript": "^3.4.1"
+  },
+  "dependencies": {
+    "@decent-bet/solido": "0.1.3",
+    "vue": "^2.6.10",
+    "vuex": "^3.1.0"
+  }
+}

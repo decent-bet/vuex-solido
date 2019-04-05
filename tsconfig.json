@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "strictNullChecks": true,
+        "outDir": "./dist",
+        "noImplicitAny": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "inlineSourceMap": true,
+        "declaration": true
+    },
+    "exclude": ["examples", "tests"],
+    "include": [
+        "./src",
+        "./tests",
+        "jest.config.js"
+    ]
+}
