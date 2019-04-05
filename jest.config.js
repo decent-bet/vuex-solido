@@ -6,23 +6,23 @@ module.exports = {
     coverageDirectory: "coverage",
   
     "roots": [
-      "<rootDir>"
+        "<rootDir>"
     ],
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+        "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
     "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
+        "ts",
+        "tsx",
+        "js",
+        "jsx",
+        "json",
+        "node"
     ],  // The glob patterns Jest uses to detect test files
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
     testPathIgnorePatterns: [
-      "/node_modules/"
+        "/node_modules/"
     ],
   
-  };
+};
