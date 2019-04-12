@@ -30,7 +30,7 @@ export function setup<S, R>(context: ActionContext<S, R>) {
     CONFIG.thorify = thorify;
     CONFIG.web3 = web3;
     MAPPINGS = contractMappings;
-    commit("SOLIDO_WALLET_SETUP", { success: true }, commitSettings);
+    commit("SOLIDO_WALLET_SETUP", { success: true, config: CONFIG }, commitSettings);
   };
 }
 
