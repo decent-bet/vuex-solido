@@ -21,7 +21,7 @@ export interface ThorifyConfig {
     privateKey: string;
     thor: any;    
     chainTag: string;
-    defaultAccount: string;
+    from: string;
 }
 
 /**
