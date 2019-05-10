@@ -4,10 +4,7 @@ import {
   SolidoProvider,
   ContractProviderMapping,
   SolidoModule,
-  ContractCollection,
-  SolidoProviderType,
-  ThorifySettings,
-  ConnexSettings
+  ContractCollection
 } from "@decent-bet/solido";
 import { SolidoContract } from "@decent-bet/solido";
 
@@ -55,30 +52,12 @@ function setupContract<T, S, R>(
     }
 
     const contract = BINDINGS.getContract<T>(name);
-    const provider = contract.getProviderType();
-    
-    switch (provider) {
-      case SolidoProviderType.Connex:
-        const { connex } = CONFIG;
-        if (!connex) {
-          throw new Error("Connex settings not found.");
-        }
-        contract.onReady<ConnexSettings>(connex);
-        break;
-
-      case SolidoProviderType.Thorify:
-        const { thorify } = CONFIG;
-        if (!thorify) {
-          throw new Error("Thorify settings not found.");
-        }
-        contract.onReady<ThorifySettings>(thorify);
-        break;
-
-      default:
-        throw new Error(
-          `The Solido provider is not valid: ${provider}.`
-        );
+    const providerType = contract.getProviderType();
+    const config = CONFIG[providerType];
+    if (!config) {
+      throw new Error(`Settings for the selected provider not found (provider type: : ${providerType}).`);
     }
+    contract.onReady(config);
 
     CONTRACT_INSTANCES[name] = contract;
     commit("SOLIDO_ENTITY_LOADED", { success: true, name }, commitSettings);
