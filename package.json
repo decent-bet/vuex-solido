@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/decent-bet/vuex-solido#readme",
   "devDependencies": {
-    "@decent-bet/solido": "^1.0.0-beta.1",
+    "@decent-bet/solido": ">=1.0.0-beta.2",
     "@types/jest": "^24.0.12",
     "@types/node": "^12.0.0",
     "@typescript-eslint/eslint-plugin": "^1.8.0",
@@ -49,6 +49,6 @@
     "vuex": "^3.1.1"
   },
   "peerDependencies": {
-    "@decent-bet/solido": "^1.0.0-beta.1"
+    "@decent-bet/solido": ">=1.0.0-beta.2"
   }
 }
