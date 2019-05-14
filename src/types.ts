@@ -1,3 +1,4 @@
+
 export interface SolidoLoadedPayload {
     success: boolean;
     name: string;
@@ -10,25 +11,7 @@ export interface SolidoSetupPayload {
 }
 
 export interface SolidoProviderConfig {
-    connex?: ConnexConfig;
-    thorify?: ThorifyConfig;
+    connex?: any;
+    thorify?: any;
     web3?: any; // TODO: implement
-}
-/**
- * Configs for thorify 
- */
-export interface ThorifyConfig {
-    privateKey: string;
-    thor: any;    
-    chainTag: string;
-    defaultAccount: string;
-}
-
-/**
- * Configs for connex 
- */
-export class ConnexConfig {
-    connex: any; // Connex instance from @vechain/connex
-    chainTag: string;
-    defaultAccount: string;
 }
