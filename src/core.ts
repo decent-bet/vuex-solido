@@ -10,7 +10,6 @@ import { SolidoContract } from "@decent-bet/solido";
 
 let MODULE: SolidoModule;
 let BINDINGS: ContractCollection;
-let MAPPINGS: ContractProviderMapping[];
 const CONTRACT_INSTANCES: any = {};
 const commitSettings = { root: true };
 
@@ -26,7 +25,7 @@ export function setup<S, R>(context: ActionContext<S, R>) {
     CONFIG.connex = connex;
     CONFIG.thorify = thorify;
     CONFIG.web3 = web3;
-    MAPPINGS = contractMappings;
+    MODULE = new SolidoModule(contractMappings);
     commit("SOLIDO_WALLET_SETUP", { success: true }, commitSettings);
   };
 }
@@ -43,10 +42,10 @@ function setupContract<T, S, R>(
   name: string
 ): void {
   try {
-    if (!MODULE) {
-      MODULE = new SolidoModule(MAPPINGS);
+    if(!MODULE) {
+      throw new Error('Solido Module not found, please call setup method first.');
     }
-
+    
     if (!BINDINGS) {
       BINDINGS = MODULE.bindContracts();
     }

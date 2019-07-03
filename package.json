@@ -1,6 +1,6 @@
 {
   "name": "@decent-bet/vuex-solido",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Vuex enhanced action for @decent-bet/solido",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -35,20 +35,21 @@
   },
   "homepage": "https://github.com/decent-bet/vuex-solido#readme",
   "devDependencies": {
-    "@decent-bet/solido": ">=1.0.0-beta.2",
-    "@types/jest": "^24.0.12",
-    "@types/node": "^12.0.0",
-    "@typescript-eslint/eslint-plugin": "^1.8.0",
-    "eslint": "^5.16.0",
+    "@decent-bet/solido": ">=1.0.0-beta.5",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.0.10",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "@typescript-eslint/parser": "^1.11.0",
+    "eslint": "^6.0.1",
     "jest": "^24.8.0",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.2"
   },
   "dependencies": {
     "vue": "^2.6.10",
     "vuex": "^3.1.1"
   },
   "peerDependencies": {
-    "@decent-bet/solido": ">=1.0.0-beta.2"
+    "@decent-bet/solido": ">=1.0.0-beta.5"
   }
 }
