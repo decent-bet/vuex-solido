@@ -8,25 +8,24 @@ import {
 } from "@decent-bet/solido";
 import { SolidoContract } from "@decent-bet/solido";
 
-let MODULE: SolidoModule;
-let BINDINGS: ContractCollection;
+const COMMIT_SETTINGS = { root: true };
+let BINDINGS: ContractCollection = null;
 const CONTRACT_INSTANCES: any = {};
-const commitSettings = { root: true };
+let GET_CONFIG: () => Promise<SolidoProviderConfig>;
+let MODULE: SolidoModule = null;
+let MAPPINGS: ContractProviderMapping[] = null;
 
-export const CONFIG: SolidoProviderConfig = {};
+export let PROVIDERS_CONFIG: SolidoProviderConfig = null;
 
 export function setup<S, R>(context: ActionContext<S, R>) {
   return (
-    config: SolidoProviderConfig,
-    contractMappings: ContractProviderMapping[]
+    contractMappings: ContractProviderMapping[],
+    getConfig: () => Promise<SolidoProviderConfig>,
   ): void => {
     const { commit } = context;
-    const { connex, thorify, web3 } = config;
-    CONFIG.connex = connex;
-    CONFIG.thorify = thorify;
-    CONFIG.web3 = web3;
-    MODULE = new SolidoModule(contractMappings);
-    commit("SOLIDO_WALLET_SETUP", { success: true }, commitSettings);
+    MAPPINGS = [...contractMappings];
+    GET_CONFIG = getConfig;
+    commit("SOLIDO_WALLET_SETUP", { success: true }, COMMIT_SETTINGS);
   };
 }
 
@@ -37,35 +36,44 @@ export function setup<S, R>(context: ActionContext<S, R>) {
  * @param {R} R The type of the root state
  * @param {string} name The name of the contract
  */
-function setupContract<T, S, R>(
+async function setupContract<T, S, R>(
   { commit }: ActionContext<S, R>,
   name: string
-): void {
+): Promise<void> {
   try {
-    if(!MODULE) {
-      throw new Error('Solido Module not found, please call setup method first.');
+    if (!MODULE) {
+      if(!MAPPINGS) {
+        throw new Error('Contract Mappings not found, please call setup method first.');
+      }
+      MODULE = new SolidoModule(MAPPINGS);
     }
-    
+
     if (!BINDINGS) {
       BINDINGS = MODULE.bindContracts();
     }
 
     const contract = BINDINGS.getContract<T>(name);
     const providerType = contract.getProviderType();
-    const config = CONFIG[providerType];
+
+    // lazy load the config
+    if(!PROVIDERS_CONFIG) {
+      PROVIDERS_CONFIG = await GET_CONFIG();
+    }
+
+    const config = PROVIDERS_CONFIG[providerType];
     if (!config) {
       throw new Error(`Settings for the selected provider not found (provider type: : ${providerType}).`);
     }
     contract.onReady(config);
 
     CONTRACT_INSTANCES[name] = contract;
-    commit("SOLIDO_ENTITY_LOADED", { success: true, name }, commitSettings);
+    commit("SOLIDO_ENTITY_LOADED", { success: true, name }, COMMIT_SETTINGS);
   } catch (error) {
     const { name, message } = error;
     commit(
       "SOLIDO_ENTITY_LOADED",
       { success: false, name, message },
-      commitSettings
+      COMMIT_SETTINGS
     );
     throw error;
   }
@@ -82,9 +90,9 @@ export function getContract<S, R>(context: ActionContext<S, R>) {
    * @param {T extends SolidoContract & SolidoProvider} T the type of the contract
    * @param {ActionContext<S, R>} name The name of the contract
    */
-  return <T>(name: string): T & SolidoContract & SolidoProvider => {
+  return async <T>(name: string): Promise<T & SolidoContract & SolidoProvider> => {
     if (!CONTRACT_INSTANCES[name]) {
-      setupContract<T, S, R>(context, name);
+      await setupContract<T, S, R>(context, name);
     }
 
     return CONTRACT_INSTANCES[name] as T & SolidoContract & SolidoProvider;
