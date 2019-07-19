@@ -13,6 +13,11 @@ let BINDINGS: ContractCollection;
 const CONTRACT_INSTANCES: any = {};
 const commitSettings = { root: true };
 
+class CoreSingleton {
+  static module: SolidoModule;
+  static providerConfig: SolidoProviderConfig;
+}
+
 export const CONFIG: SolidoProviderConfig = {};
 
 export function setup<S, R>(context: ActionContext<S, R>) {
@@ -26,6 +31,10 @@ export function setup<S, R>(context: ActionContext<S, R>) {
     CONFIG.thorify = thorify;
     CONFIG.web3 = web3;
     MODULE = new SolidoModule(contractMappings);
+
+    CoreSingleton.module = new SolidoModule(contractMappings);
+    CoreSingleton.providerConfig = config;
+
     commit("SOLIDO_WALLET_SETUP", { success: true }, commitSettings);
   };
 }
@@ -42,10 +51,10 @@ function setupContract<T, S, R>(
   name: string
 ): void {
   try {
-    if(!MODULE) {
+    if (!MODULE) {
       throw new Error('Solido Module not found, please call setup method first.');
     }
-    
+
     if (!BINDINGS) {
       BINDINGS = MODULE.bindContracts();
     }
@@ -89,4 +98,26 @@ export function getContract<S, R>(context: ActionContext<S, R>) {
 
     return CONTRACT_INSTANCES[name] as T & SolidoContract & SolidoProvider;
   };
+}
+
+export function bindContracts(name?: string) {
+
+  const { module, providerConfig } = CoreSingleton;
+  const { chainTag, defaultAccount, connex } = providerConfig.connex;
+  const contracts = module.bindContracts({
+    'connex': {
+      provider: connex,
+      options: {
+        defaultAccount,
+        from: defaultAccount,
+        chainTag
+      }
+    }
+  }).connect();
+
+
+  if (name) {
+    return contracts[name] as SolidoContract & SolidoProvider;
+  }
+  return contracts;
 }
