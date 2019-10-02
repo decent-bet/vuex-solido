@@ -6,11 +6,11 @@ declare module "vuex/types" {
   export interface ActionContext<S, R> {
     getContract: <T>(
       name: string
-    ) => T & SolidoContract & SolidoProvider;
+    ) => Promise<T & SolidoContract & SolidoProvider>;
 
     setup: (
-      config: SolidoProviderConfig,
-      contractMappings: ContractProviderMapping[]
+      contractMappings: ContractProviderMapping[],
+      getConfig: () => Promise<SolidoProviderConfig>,
     ) => void;
 
     currentConfig: SolidoProviderConfig;
